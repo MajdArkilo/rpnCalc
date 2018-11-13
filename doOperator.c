@@ -44,19 +44,19 @@ static struct operator_struct {
   {"-",     op_diff},
   {"*",     op_mult},
   {"/",     op_div},
-  {">",     op_grtr},
-  {"<",     op_less},
-  {">=",    op_grtEq},
-  {"<=",    op_lsEq},
-  {"==",    op_eqlt},
+  {"GT",     op_grtr},
+  {"LT",     op_less},
+  {"GE",    op_grtEq},
+  {"LE",    op_lsEq},
+  {"EQ",    op_eqlt},
   {"MOD",   op_mdCp},
-  {"%",     op_modQt},
-  {"swp",    op_swap},
-  {"help",   op_help},
+  {"MODQUOT",     op_modQt},
+  {"SWAP",    op_swap},
+  {"HELP",   op_help},
   {"ROT",    op_rotat},
   {"ROTMINUS", op_rtMn},
   {"DROP", op_drop},
-  {"s",     op_prtS},
+  {"S",     op_prtS},
   {(char *)NULL, (int(*)(struct tokenStack *)) NULL}
 };
 
@@ -157,6 +157,11 @@ static int op_div(struct tokenStack *stack)
   int v1, v2;
   v1 = popInt(stack);
   v2 = popInt(stack);
+	if(v1 == 0)
+	{
+		return fprintf(stderr, "%s", "Can't devide by zero"); 
+		
+	}
   pushInt(stack, v2/v1); 
     return (0);
 }
@@ -174,7 +179,7 @@ static int op_grtr(struct tokenStack *stack)
   {
     pushInt(stack, 0);   
   }
-    return (0);
+    return 0;
 }
 
 /* LT (n1 n2 — lt) -push 1 if n1 < n2 and 0 otherwise */
@@ -280,8 +285,8 @@ static int op_modQt(struct tokenStack *stack)
   int v1, v2;
   v1 = popInt(stack);
   v2 = popInt(stack);
-  pushInt(stack, v2/v1);
   pushInt(stack, v2%v1);
+  pushInt(stack, v2/v1);
     return (0);
 }
 
@@ -315,9 +320,9 @@ static int op_rotat(struct tokenStack *stack)
   v3 = popInt(stack);
   v2 = popInt(stack);
   v1 = popInt(stack);
-  pushInt(stack, v2);
-  pushInt(stack, v3);
   pushInt(stack, v1);
+  pushInt(stack, v3);
+  pushInt(stack, v2);
     return (0);
 }
 
@@ -328,9 +333,9 @@ static int op_rtMn(struct tokenStack *stack)
   v3 = popInt(stack);
   v2 = popInt(stack);
   v1 = popInt(stack);
-  pushInt(stack, v3);
-  pushInt(stack, v1);
   pushInt(stack, v2);
+  pushInt(stack, v1);
+  pushInt(stack, v3);
     return (0);
 }
 
