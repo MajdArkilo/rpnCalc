@@ -306,11 +306,25 @@ static int op_swap(struct tokenStack *stack)
 This is made easier due to the help string in the table.  */
 static int op_help(struct tokenStack *stack)
 {
-    struct operator_struct *op = ops;
-    for(op=ops;op->name != (char *)NULL; op++) {
-    printf("%s",op->name);
-  }
-  return 0;
+  	printf("%s\n", "To ADD values together, use the + operator ");
+    printf("%s\n", "To SUBTRACT values together, use the - operator ");
+    printf("%s\n", "To MULTIPLY values together, use *");
+    printf("%s\n", "To DIVIDE values, use the / operator");
+    printf("%s\n", "To COMPARE LARGER (>) values, use the GT operator");
+    printf("%s\n", "To COMPARE LESS (<) values, use the LT operator");
+    printf("%s\n", "TO COMPARE GREATER THAN or EQUAL (>=), use the GE operator");
+    printf("%s\n", "TO COMPARE LESS THAN or EQUAL (>=), use the GE operator");
+    printf("%s\n", "To COMPARE EQUAL (==) values, use the EQ operator");
+    printf("%s\n", "To push 2 copies of n1 onto the stack use MOD operator");
+
+    printf("%s\n", "To create if statement, use IF operator");
+    printf("%s\n", "Push remainder then quotient use MODQUOT");
+    printf("%s\n", "To create SWAP operator, use the SWAP");
+    printf("%s\n", "To rotate top 3 elements on stack use ROT");
+    printf("%s\n", "To rotate top 3 elements on the stack, use ROTMINUS");
+    printf("%s\n", "To drop the top element off of the stack use DROP");
+    printf("%s\n", "Print all elements on the stack non destructively, use S");
+    return 0;
 }
 
 /* ROT (n1 n2 n3 — n2 n3 n1) - rotate top 3 elements on the stack  */
