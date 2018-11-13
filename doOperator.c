@@ -22,7 +22,7 @@ static int op_grtEq(struct tokenStack *stack);
 static int op_lsEq(struct tokenStack *stack);
 static int op_eqlt(struct tokenStack *stack);
 static int op_modQt(struct tokenStack *stack);
-/*static int op_if(struct tokenStack *stack); */ /* is v passed as parameter?*/
+static int op_if(struct tokenStack *stack);  /* is v passed as parameter?*/
 static int op_mdCp(struct tokenStack *stack);
 static int op_swap(struct tokenStack *stack);
 static int op_help(struct tokenStack *stack);
@@ -50,6 +50,7 @@ static struct operator_struct {
   {"LE",    op_lsEq},
   {"EQ",    op_eqlt},
   {"MOD",   op_mdCp},
+  {"IF",     op_if},
   {"MODQUOT",     op_modQt},
   {"SWAP",    op_swap},
   {"HELP",   op_help},
@@ -261,13 +262,14 @@ static int op_mdCp(struct tokenStack *stack)
 }
 
 /* IF (n1 n2 v — x) - if v is not zero then push n1 otherwise n2  */
-/*
-static int op_if(struct tokenStack *stack, int v)
+
+static int op_if(struct tokenStack *stack)
 {
-  int v1, v2;
+  int v1, v2 , n;
+  n = popInt(stack);
   v2 = popInt(stack);
   v1 = popInt(stack);
-  if(v == 0)
+  if(n == 0)
   {
     pushInt(stack, v2); 
   }
@@ -277,7 +279,7 @@ static int op_if(struct tokenStack *stack, int v)
   }
     return (0);
 }
-*/
+
 
 /* MODQUOT (n1 n2 — rem quotient) - push remainder then quotient  */
 static int op_modQt(struct tokenStack *stack)
@@ -356,14 +358,16 @@ static int op_rtMn(struct tokenStack *stack)
 /* S (—) - print all elements on the stack non destructively  */
 static int op_prtS(struct tokenStack *stack)
 {
-    int currentTop = stack->top;
-    for(; stack->top > 0 ; stack->top--)
-    {
-    char element[1000];
-    strcpy(element,stack->e[stack->top--]->symbol);
-    printf("%s",element);
-    }
-    stack->top = currentTop;
+	int j;
+	j = stack->top;
+	if(j <= 0)
+	{
+		return fprintf(stderr,"%s", "there is nothing on the stack, Program still runs");
+	}
+	while(j != 0)
+	{
+		printf("%s\n",stack->e[--j]->symbol);
+	}
     return (0);
 }
 
